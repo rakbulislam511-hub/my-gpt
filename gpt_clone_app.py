@@ -4,24 +4,21 @@ from groq import Groq
 st.set_page_config(page_title="My GPT", page_icon="🤖")
 st.title("My-GPT")
 
-# API Key Streamlit Secrets theke asbe
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Ager chat gulo dekhao
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-# Input box
 if prompt := st.chat_input("Ekhan e lekho..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
     try:
         response = client.chat.completions.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            model="openai/gpt-oss-20b",
             messages=st.session_state.messages
         )
         ans = response.choices[0].message.content
